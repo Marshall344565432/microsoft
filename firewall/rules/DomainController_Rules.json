@@ -1,0 +1,202 @@
+{
+  "ServerRole": "DomainController",
+  "Description": "Complete firewall rules for Active Directory Domain Controllers",
+  "CreatedDate": "2025-12-26",
+  "CISBenchmark": "Windows Server 2022 v2.0.0",
+  "Prerequisites": [
+    "Apply CIS_Domain_Profile_Rules.json first for core management",
+    "Update RemoteAddress fields to match your admin subnet",
+    "Verify Dynamic RPC port range (49152-65535) is not blocked upstream"
+  ],
+  "Rules": [
+    {
+      "DisplayName": "CIS-FW-DC-001: DNS TCP",
+      "Description": "DNS service for zone transfers and large queries",
+      "Direction": "Inbound",
+      "Action": "Allow",
+      "Protocol": "TCP",
+      "LocalPort": "53",
+      "RemoteAddress": "",
+      "Profile": "Domain,Private",
+      "Group": "Active Directory Domain Services",
+      "Enabled": true
+    },
+    {
+      "DisplayName": "CIS-FW-DC-002: DNS UDP",
+      "Description": "DNS service for standard name resolution",
+      "Direction": "Inbound",
+      "Action": "Allow",
+      "Protocol": "UDP",
+      "LocalPort": "53",
+      "RemoteAddress": "",
+      "Profile": "Domain,Private",
+      "Group": "Active Directory Domain Services",
+      "Enabled": true
+    },
+    {
+      "DisplayName": "CIS-FW-DC-003: Kerberos TCP",
+      "Description": "Kerberos authentication service (TCP)",
+      "Direction": "Inbound",
+      "Action": "Allow",
+      "Protocol": "TCP",
+      "LocalPort": "88",
+      "RemoteAddress": "",
+      "Profile": "Domain",
+      "Group": "Active Directory Domain Services",
+      "Enabled": true
+    },
+    {
+      "DisplayName": "CIS-FW-DC-004: Kerberos UDP",
+      "Description": "Kerberos authentication service (UDP)",
+      "Direction": "Inbound",
+      "Action": "Allow",
+      "Protocol": "UDP",
+      "LocalPort": "88",
+      "RemoteAddress": "",
+      "Profile": "Domain",
+      "Group": "Active Directory Domain Services",
+      "Enabled": true
+    },
+    {
+      "DisplayName": "CIS-FW-DC-005: LDAP TCP",
+      "Description": "Lightweight Directory Access Protocol",
+      "Direction": "Inbound",
+      "Action": "Allow",
+      "Protocol": "TCP",
+      "LocalPort": "389",
+      "RemoteAddress": "",
+      "Profile": "Domain",
+      "Group": "Active Directory Domain Services",
+      "Enabled": true
+    },
+    {
+      "DisplayName": "CIS-FW-DC-006: LDAPS TCP",
+      "Description": "LDAP over SSL/TLS for secure directory access",
+      "Direction": "Inbound",
+      "Action": "Allow",
+      "Protocol": "TCP",
+      "LocalPort": "636",
+      "RemoteAddress": "",
+      "Profile": "Domain",
+      "Group": "Active Directory Domain Services",
+      "Enabled": true
+    },
+    {
+      "DisplayName": "CIS-FW-DC-007: LDAP UDP",
+      "Description": "LDAP ping and discovery",
+      "Direction": "Inbound",
+      "Action": "Allow",
+      "Protocol": "UDP",
+      "LocalPort": "389",
+      "RemoteAddress": "",
+      "Profile": "Domain",
+      "Group": "Active Directory Domain Services",
+      "Enabled": true
+    },
+    {
+      "DisplayName": "CIS-FW-DC-008: Global Catalog",
+      "Description": "Global Catalog service for cross-domain queries",
+      "Direction": "Inbound",
+      "Action": "Allow",
+      "Protocol": "TCP",
+      "LocalPort": "3268,3269",
+      "RemoteAddress": "",
+      "Profile": "Domain",
+      "Group": "Active Directory Domain Services",
+      "Enabled": true
+    },
+    {
+      "DisplayName": "CIS-FW-DC-009: SMB",
+      "Description": "SMB for SYSVOL and NETLOGON shares",
+      "Direction": "Inbound",
+      "Action": "Allow",
+      "Protocol": "TCP",
+      "LocalPort": "445",
+      "RemoteAddress": "",
+      "Profile": "Domain",
+      "Group": "Active Directory Domain Services",
+      "Enabled": true
+    },
+    {
+      "DisplayName": "CIS-FW-DC-010: RPC Endpoint Mapper",
+      "Description": "RPC endpoint mapper for AD replication",
+      "Direction": "Inbound",
+      "Action": "Allow",
+      "Protocol": "TCP",
+      "LocalPort": "135",
+      "RemoteAddress": "",
+      "Profile": "Domain",
+      "Group": "Active Directory Domain Services",
+      "Enabled": true
+    },
+    {
+      "DisplayName": "CIS-FW-DC-011: Dynamic RPC",
+      "Description": "Dynamic RPC port range for AD replication and management",
+      "Direction": "Inbound",
+      "Action": "Allow",
+      "Protocol": "TCP",
+      "LocalPort": "49152-65535",
+      "RemoteAddress": "",
+      "Profile": "Domain",
+      "Group": "Active Directory Domain Services",
+      "Enabled": true,
+      "Notes": "Can be restricted using registry: HKLM\\Software\\Microsoft\\Rpc\\Internet - Ports (REG_MULTI_SZ) to specific range like 50000-50100"
+    },
+    {
+      "DisplayName": "CIS-FW-DC-012: NTP",
+      "Description": "Network Time Protocol for domain time synchronization",
+      "Direction": "Inbound",
+      "Action": "Allow",
+      "Protocol": "UDP",
+      "LocalPort": "123",
+      "RemoteAddress": "",
+      "Profile": "Domain",
+      "Group": "Active Directory Domain Services",
+      "Enabled": true
+    },
+    {
+      "DisplayName": "CIS-FW-DC-013: Kerberos Password Change",
+      "Description": "Kerberos password change protocol",
+      "Direction": "Inbound",
+      "Action": "Allow",
+      "Protocol": "TCP,UDP",
+      "LocalPort": "464",
+      "RemoteAddress": "",
+      "Profile": "Domain",
+      "Group": "Active Directory Domain Services",
+      "Enabled": true
+    },
+    {
+      "DisplayName": "CIS-FW-DC-014: Windows Time (W32Time)",
+      "Description": "Windows Time service outbound for external time sync",
+      "Direction": "Outbound",
+      "Action": "Allow",
+      "Protocol": "UDP",
+      "RemotePort": "123",
+      "RemoteAddress": "",
+      "Profile": "Domain",
+      "Group": "Active Directory Domain Services",
+      "Enabled": true,
+      "Notes": "Only needed on PDC Emulator for external time source"
+    },
+    {
+      "DisplayName": "CIS-FW-DC-015: DFS Replication",
+      "Description": "DFS-R for SYSVOL replication (Server 2008+)",
+      "Direction": "Inbound",
+      "Action": "Allow",
+      "Protocol": "TCP",
+      "LocalPort": "5722",
+      "RemoteAddress": "",
+      "Profile": "Domain",
+      "Group": "Active Directory Domain Services",
+      "Enabled": true
+    }
+  ],
+  "AdditionalNotes": [
+    "If using NetBIOS, add UDP 137, 138 and TCP 139 (not recommended for modern environments)",
+    "For DHCP on DC, add UDP 67 inbound (not recommended - use separate DHCP server)",
+    "For DNS zone transfers to specific secondaries, restrict TCP/53 by RemoteAddress",
+    "Consider restricting Dynamic RPC range using registry configuration",
+    "Public profile should have most DC services disabled/blocked (DCs should not be internet-facing)"
+  ]
+}

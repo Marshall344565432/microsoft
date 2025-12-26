@@ -1,0 +1,128 @@
+{
+  "ProfileName": "Domain",
+  "Description": "CIS-compliant firewall rules for Domain Profile - Core networking and management",
+  "CreatedDate": "2025-12-26",
+  "CISBenchmark": "Windows Server 2022 v2.0.0",
+  "Rules": [
+    {
+      "DisplayName": "CIS-FW-CORE-001: Remote Desktop (Admin Subnet)",
+      "Description": "Allow RDP from administrative subnet only",
+      "Direction": "Inbound",
+      "Action": "Allow",
+      "Protocol": "TCP",
+      "LocalPort": "3389",
+      "RemoteAddress": "10.0.1.0/24",
+      "Profile": "Domain",
+      "Group": "Remote Management",
+      "Enabled": true
+    },
+    {
+      "DisplayName": "CIS-FW-CORE-002: WinRM HTTP",
+      "Description": "Windows Remote Management for PowerShell remoting",
+      "Direction": "Inbound",
+      "Action": "Allow",
+      "Protocol": "TCP",
+      "LocalPort": "5985",
+      "RemoteAddress": "",
+      "Profile": "Domain",
+      "Group": "Remote Management",
+      "Enabled": true
+    },
+    {
+      "DisplayName": "CIS-FW-CORE-003: WinRM HTTPS",
+      "Description": "Windows Remote Management (secure) for PowerShell remoting",
+      "Direction": "Inbound",
+      "Action": "Allow",
+      "Protocol": "TCP",
+      "LocalPort": "5986",
+      "RemoteAddress": "",
+      "Profile": "Domain",
+      "Group": "Remote Management",
+      "Enabled": true
+    },
+    {
+      "DisplayName": "CIS-FW-CORE-004: ICMPv4 Echo Request",
+      "Description": "Allow ping requests for network troubleshooting",
+      "Direction": "Inbound",
+      "Action": "Allow",
+      "Protocol": "ICMPv4:8",
+      "LocalPort": "",
+      "RemoteAddress": "",
+      "Profile": "Domain,Private",
+      "Group": "Core Networking",
+      "Enabled": true
+    },
+    {
+      "DisplayName": "CIS-FW-CORE-005: ICMPv6 Echo Request",
+      "Description": "Allow IPv6 ping requests for network troubleshooting",
+      "Direction": "Inbound",
+      "Action": "Allow",
+      "Protocol": "ICMPv6:128",
+      "LocalPort": "",
+      "RemoteAddress": "",
+      "Profile": "Domain,Private",
+      "Group": "Core Networking",
+      "Enabled": true
+    },
+    {
+      "DisplayName": "CIS-FW-CORE-006: Server Manager Remote",
+      "Description": "Allow Server Manager remote management from admin subnet",
+      "Direction": "Inbound",
+      "Action": "Allow",
+      "Protocol": "TCP",
+      "LocalPort": "445",
+      "RemoteAddress": "10.0.1.0/24",
+      "Profile": "Domain",
+      "Group": "Remote Management",
+      "Enabled": true
+    },
+    {
+      "DisplayName": "CIS-FW-CORE-007: DNS Client",
+      "Description": "Allow DNS queries to domain controllers",
+      "Direction": "Outbound",
+      "Action": "Allow",
+      "Protocol": "UDP",
+      "RemotePort": "53",
+      "RemoteAddress": "",
+      "Profile": "Domain",
+      "Group": "Core Networking",
+      "Enabled": true
+    },
+    {
+      "DisplayName": "CIS-FW-CORE-008: Kerberos Client",
+      "Description": "Allow Kerberos authentication to domain controllers",
+      "Direction": "Outbound",
+      "Action": "Allow",
+      "Protocol": "TCP,UDP",
+      "RemotePort": "88",
+      "RemoteAddress": "",
+      "Profile": "Domain",
+      "Group": "Core Networking",
+      "Enabled": true
+    },
+    {
+      "DisplayName": "CIS-FW-CORE-009: LDAP Client",
+      "Description": "Allow LDAP queries to domain controllers",
+      "Direction": "Outbound",
+      "Action": "Allow",
+      "Protocol": "TCP,UDP",
+      "RemotePort": "389",
+      "RemoteAddress": "",
+      "Profile": "Domain",
+      "Group": "Core Networking",
+      "Enabled": true
+    },
+    {
+      "DisplayName": "CIS-FW-CORE-010: SMB Client",
+      "Description": "Allow SMB for Group Policy and file access",
+      "Direction": "Outbound",
+      "Action": "Allow",
+      "Protocol": "TCP",
+      "RemotePort": "445",
+      "RemoteAddress": "",
+      "Profile": "Domain",
+      "Group": "Core Networking",
+      "Enabled": true
+    }
+  ]
+}

@@ -1,0 +1,266 @@
+{
+  "ProfileSettings": {
+    "Description": "CIS Benchmark compliant Windows Defender Firewall profile settings",
+    "CISBenchmark": "Windows Server 2022 v2.0.0",
+    "LastUpdated": "2025-12-26",
+    "Profiles": {
+      "Domain": {
+        "Description": "Settings when computer is connected to corporate domain",
+        "CISControls": "9.1.x and 9.2.x",
+        "Settings": {
+          "Enabled": {
+            "Value": true,
+            "CISControl": "9.1.1",
+            "Level": 1,
+            "Description": "Ensure 'Windows Firewall: Domain: Firewall state' is set to 'On'"
+          },
+          "DefaultInboundAction": {
+            "Value": "Block",
+            "CISControl": "9.1.2",
+            "Level": 1,
+            "Description": "Ensure 'Windows Firewall: Domain: Inbound connections' is set to 'Block (default)'"
+          },
+          "DefaultOutboundAction": {
+            "Value": "Allow",
+            "CISControl": "9.1.3",
+            "Level": 1,
+            "Description": "Ensure 'Windows Firewall: Domain: Outbound connections' is set to 'Allow (default)'"
+          },
+          "AllowInboundRules": {
+            "Value": false,
+            "CISControl": "N/A",
+            "Level": 1,
+            "Description": "Do not allow inbound exceptions from merged rule collections"
+          },
+          "AllowLocalFirewallRules": {
+            "Value": false,
+            "CISControl": "N/A",
+            "Level": 1,
+            "Description": "Prevent local administrators from creating firewall rules"
+          },
+          "AllowLocalIPsecRules": {
+            "Value": false,
+            "CISControl": "N/A",
+            "Level": 1,
+            "Description": "Prevent local administrators from creating IPsec rules"
+          },
+          "NotifyOnListen": {
+            "Value": false,
+            "CISControl": "N/A",
+            "Level": 1,
+            "Description": "Disable notifications when program is blocked (servers)"
+          },
+          "LogFileName": {
+            "Value": "%SystemRoot%\\System32\\logfiles\\firewall\\pfirewall-domain.log",
+            "CISControl": "9.1.4",
+            "Level": 1,
+            "Description": "Firewall log file location"
+          },
+          "LogMaxSizeKilobytes": {
+            "Value": 16384,
+            "CISControl": "9.1.4",
+            "Level": 1,
+            "Description": "Maximum log file size (16 MB minimum)"
+          },
+          "LogAllowed": {
+            "Value": true,
+            "CISControl": "9.1.4",
+            "Level": 2,
+            "Description": "Log allowed connections (Level 2 - can be set to false for Level 1)"
+          },
+          "LogBlocked": {
+            "Value": true,
+            "CISControl": "9.1.4",
+            "Level": 1,
+            "Description": "Log blocked connections"
+          },
+          "LogIgnored": {
+            "Value": false,
+            "CISControl": "N/A",
+            "Level": 1,
+            "Description": "Log ignored connections (usually false)"
+          }
+        },
+        "PowerShellConfiguration": "Set-NetFirewallProfile -Profile Domain -Enabled True -DefaultInboundAction Block -DefaultOutboundAction Allow -AllowLocalFirewallRules False -AllowLocalIPsecRules False -NotifyOnListen False -LogFileName '%SystemRoot%\\System32\\logfiles\\firewall\\pfirewall-domain.log' -LogMaxSizeKilobytes 16384 -LogAllowed True -LogBlocked True"
+      },
+      "Private": {
+        "Description": "Settings when computer is on a private network (workgroup/home)",
+        "CISControls": "9.2.x",
+        "Settings": {
+          "Enabled": {
+            "Value": true,
+            "CISControl": "9.2.1",
+            "Level": 1,
+            "Description": "Ensure 'Windows Firewall: Private: Firewall state' is set to 'On'"
+          },
+          "DefaultInboundAction": {
+            "Value": "Block",
+            "CISControl": "9.2.2",
+            "Level": 1,
+            "Description": "Ensure 'Windows Firewall: Private: Inbound connections' is set to 'Block (default)'"
+          },
+          "DefaultOutboundAction": {
+            "Value": "Allow",
+            "CISControl": "9.2.3",
+            "Level": 1,
+            "Description": "Ensure 'Windows Firewall: Private: Outbound connections' is set to 'Allow (default)'"
+          },
+          "AllowInboundRules": {
+            "Value": false,
+            "CISControl": "N/A",
+            "Level": 1,
+            "Description": "Do not allow inbound exceptions from merged rule collections"
+          },
+          "AllowLocalFirewallRules": {
+            "Value": false,
+            "CISControl": "9.2.4",
+            "Level": 1,
+            "Description": "Ensure 'Windows Firewall: Private: Settings: Apply local firewall rules' is set to 'No'"
+          },
+          "AllowLocalIPsecRules": {
+            "Value": false,
+            "CISControl": "9.2.5",
+            "Level": 1,
+            "Description": "Ensure 'Windows Firewall: Private: Settings: Apply local connection security rules' is set to 'No'"
+          },
+          "NotifyOnListen": {
+            "Value": false,
+            "CISControl": "N/A",
+            "Level": 1,
+            "Description": "Disable notifications (servers)"
+          },
+          "LogFileName": {
+            "Value": "%SystemRoot%\\System32\\logfiles\\firewall\\pfirewall-private.log",
+            "CISControl": "9.2.6, 9.2.7, 9.2.8",
+            "Level": 1,
+            "Description": "Firewall log file location"
+          },
+          "LogMaxSizeKilobytes": {
+            "Value": 16384,
+            "CISControl": "9.2.8",
+            "Level": 1,
+            "Description": "Ensure 'Windows Firewall: Private: Logging: Size limit (KB)' is set to '16,384 KB or greater'"
+          },
+          "LogAllowed": {
+            "Value": true,
+            "CISControl": "9.2.7",
+            "Level": 2,
+            "Description": "Ensure 'Windows Firewall: Private: Logging: Log successful connections' is set to 'Yes'"
+          },
+          "LogBlocked": {
+            "Value": true,
+            "CISControl": "9.2.6",
+            "Level": 1,
+            "Description": "Ensure 'Windows Firewall: Private: Logging: Log dropped packets' is set to 'Yes'"
+          },
+          "LogIgnored": {
+            "Value": false,
+            "CISControl": "N/A",
+            "Level": 1,
+            "Description": "Log ignored connections (usually false)"
+          }
+        },
+        "PowerShellConfiguration": "Set-NetFirewallProfile -Profile Private -Enabled True -DefaultInboundAction Block -DefaultOutboundAction Allow -AllowLocalFirewallRules False -AllowLocalIPsecRules False -NotifyOnListen False -LogFileName '%SystemRoot%\\System32\\logfiles\\firewall\\pfirewall-private.log' -LogMaxSizeKilobytes 16384 -LogAllowed True -LogBlocked True"
+      },
+      "Public": {
+        "Description": "Settings when computer is on a public/untrusted network (DMZ, Internet)",
+        "CISControls": "9.3.x",
+        "Settings": {
+          "Enabled": {
+            "Value": true,
+            "CISControl": "9.3.1",
+            "Level": 1,
+            "Description": "Ensure 'Windows Firewall: Public: Firewall state' is set to 'On'"
+          },
+          "DefaultInboundAction": {
+            "Value": "Block",
+            "CISControl": "9.3.2",
+            "Level": 1,
+            "Description": "Ensure 'Windows Firewall: Public: Inbound connections' is set to 'Block (default)'"
+          },
+          "DefaultOutboundAction": {
+            "Value": "Block",
+            "CISControl": "9.3.3",
+            "Level": 1,
+            "Description": "Ensure 'Windows Firewall: Public: Outbound connections' is set to 'Block (default)' - MOST RESTRICTIVE"
+          },
+          "AllowInboundRules": {
+            "Value": false,
+            "CISControl": "N/A",
+            "Level": 1,
+            "Description": "Do not allow inbound exceptions"
+          },
+          "AllowLocalFirewallRules": {
+            "Value": false,
+            "CISControl": "9.3.4",
+            "Level": 1,
+            "Description": "Ensure 'Windows Firewall: Public: Settings: Apply local firewall rules' is set to 'No'"
+          },
+          "AllowLocalIPsecRules": {
+            "Value": false,
+            "CISControl": "9.3.5",
+            "Level": 1,
+            "Description": "Ensure 'Windows Firewall: Public: Settings: Apply local connection security rules' is set to 'No'"
+          },
+          "NotifyOnListen": {
+            "Value": false,
+            "CISControl": "N/A",
+            "Level": 1,
+            "Description": "Disable notifications (servers)"
+          },
+          "LogFileName": {
+            "Value": "%SystemRoot%\\System32\\logfiles\\firewall\\pfirewall-public.log",
+            "CISControl": "9.3.6, 9.3.7, 9.3.8",
+            "Level": 1,
+            "Description": "Firewall log file location"
+          },
+          "LogMaxSizeKilobytes": {
+            "Value": 16384,
+            "CISControl": "9.3.8",
+            "Level": 1,
+            "Description": "Ensure 'Windows Firewall: Public: Logging: Size limit (KB)' is set to '16,384 KB or greater'"
+          },
+          "LogAllowed": {
+            "Value": true,
+            "CISControl": "9.3.7",
+            "Level": 2,
+            "Description": "Ensure 'Windows Firewall: Public: Logging: Log successful connections' is set to 'Yes'"
+          },
+          "LogBlocked": {
+            "Value": true,
+            "CISControl": "9.3.6",
+            "Level": 1,
+            "Description": "Ensure 'Windows Firewall: Public: Logging: Log dropped packets' is set to 'Yes'"
+          },
+          "LogIgnored": {
+            "Value": false,
+            "CISControl": "N/A",
+            "Level": 1,
+            "Description": "Log ignored connections (usually false)"
+          }
+        },
+        "PowerShellConfiguration": "Set-NetFirewallProfile -Profile Public -Enabled True -DefaultInboundAction Block -DefaultOutboundAction Block -AllowLocalFirewallRules False -AllowLocalIPsecRules False -NotifyOnListen False -LogFileName '%SystemRoot%\\System32\\logfiles\\firewall\\pfirewall-public.log' -LogMaxSizeKilobytes 16384 -LogAllowed True -LogBlocked True",
+        "ImportantNotes": [
+          "Public profile has OUTBOUND BLOCK by default - most restrictive",
+          "Ensure required outbound rules exist for necessary services",
+          "Servers should rarely use Public profile - indicates network misconfiguration",
+          "DMZ servers may need explicit outbound rules"
+        ]
+      }
+    }
+  },
+  "DeploymentScript": {
+    "Description": "PowerShell script to apply all CIS profile settings",
+    "Script": "# CIS Firewall Profile Configuration\n# Windows Server 2022 v2.0.0\n\n# Domain Profile (CIS 9.1.x)\nSet-NetFirewallProfile -Profile Domain `\n    -Enabled True `\n    -DefaultInboundAction Block `\n    -DefaultOutboundAction Allow `\n    -AllowLocalFirewallRules False `\n    -AllowLocalIPsecRules False `\n    -NotifyOnListen False `\n    -LogFileName '%SystemRoot%\\System32\\logfiles\\firewall\\pfirewall-domain.log' `\n    -LogMaxSizeKilobytes 16384 `\n    -LogAllowed True `\n    -LogBlocked True\n\n# Private Profile (CIS 9.2.x)\nSet-NetFirewallProfile -Profile Private `\n    -Enabled True `\n    -DefaultInboundAction Block `\n    -DefaultOutboundAction Allow `\n    -AllowLocalFirewallRules False `\n    -AllowLocalIPsecRules False `\n    -NotifyOnListen False `\n    -LogFileName '%SystemRoot%\\System32\\logfiles\\firewall\\pfirewall-private.log' `\n    -LogMaxSizeKilobytes 16384 `\n    -LogAllowed True `\n    -LogBlocked True\n\n# Public Profile (CIS 9.3.x)\nSet-NetFirewallProfile -Profile Public `\n    -Enabled True `\n    -DefaultInboundAction Block `\n    -DefaultOutboundAction Block `\n    -AllowLocalFirewallRules False `\n    -AllowLocalIPsecRules False `\n    -NotifyOnListen False `\n    -LogFileName '%SystemRoot%\\System32\\logfiles\\firewall\\pfirewall-public.log' `\n    -LogMaxSizeKilobytes 16384 `\n    -LogAllowed True `\n    -LogBlocked True\n\nWrite-Host 'CIS firewall profile settings applied successfully' -ForegroundColor Green"
+  },
+  "ValidationScript": {
+    "Description": "Verify CIS compliance of firewall profiles",
+    "Script": "# Get current profile settings\n$DomainProfile = Get-NetFirewallProfile -Profile Domain\n$PrivateProfile = Get-NetFirewallProfile -Profile Private\n$PublicProfile = Get-NetFirewallProfile -Profile Public\n\n# Check compliance\n$Results = @()\n\n# Domain Profile Checks\n$Results += [PSCustomObject]@{Profile='Domain'; Check='Enabled'; Expected='True'; Actual=$DomainProfile.Enabled; Pass=($DomainProfile.Enabled -eq $true)}\n$Results += [PSCustomObject]@{Profile='Domain'; Check='InboundDefault'; Expected='Block'; Actual=$DomainProfile.DefaultInboundAction; Pass=($DomainProfile.DefaultInboundAction -eq 'Block')}\n$Results += [PSCustomObject]@{Profile='Domain'; Check='OutboundDefault'; Expected='Allow'; Actual=$DomainProfile.DefaultOutboundAction; Pass=($DomainProfile.DefaultOutboundAction -eq 'Allow')}\n$Results += [PSCustomObject]@{Profile='Domain'; Check='LogSize'; Expected='16384+'; Actual=$DomainProfile.LogMaxSizeKilobytes; Pass=($DomainProfile.LogMaxSizeKilobytes -ge 16384)}\n\n# Private Profile Checks\n$Results += [PSCustomObject]@{Profile='Private'; Check='Enabled'; Expected='True'; Actual=$PrivateProfile.Enabled; Pass=($PrivateProfile.Enabled -eq $true)}\n$Results += [PSCustomObject]@{Profile='Private'; Check='InboundDefault'; Expected='Block'; Actual=$PrivateProfile.DefaultInboundAction; Pass=($PrivateProfile.DefaultInboundAction -eq 'Block')}\n$Results += [PSCustomObject]@{Profile='Private'; Check='AllowLocalRules'; Expected='False'; Actual=$PrivateProfile.AllowLocalFirewallRules; Pass=($PrivateProfile.AllowLocalFirewallRules -eq $false)}\n\n# Public Profile Checks\n$Results += [PSCustomObject]@{Profile='Public'; Check='Enabled'; Expected='True'; Actual=$PublicProfile.Enabled; Pass=($PublicProfile.Enabled -eq $true)}\n$Results += [PSCustomObject]@{Profile='Public'; Check='InboundDefault'; Expected='Block'; Actual=$PublicProfile.DefaultInboundAction; Pass=($PublicProfile.DefaultInboundAction -eq 'Block')}\n$Results += [PSCustomObject]@{Profile='Public'; Check='OutboundDefault'; Expected='Block'; Actual=$PublicProfile.DefaultOutboundAction; Pass=($PublicProfile.DefaultOutboundAction -eq 'Block')}\n\n# Display results\n$Results | Format-Table -AutoSize\n\n$Failed = ($Results | Where-Object {$_.Pass -eq $false}).Count\nif ($Failed -eq 0) {\n    Write-Host \"All CIS firewall profile checks PASSED\" -ForegroundColor Green\n} else {\n    Write-Host \"$Failed CIS firewall profile check(s) FAILED\" -ForegroundColor Red\n}"
+  },
+  "References": [
+    "CIS Microsoft Windows Server 2022 Benchmark v2.0.0",
+    "Section 9 - Windows Defender Firewall with Advanced Security",
+    "https://www.cisecurity.org/benchmark/microsoft_windows_server",
+    "NIST SP 800-41 Rev 1 - Guidelines on Firewalls and Firewall Policy"
+  ]
+}
