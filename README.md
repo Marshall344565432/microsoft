@@ -14,22 +14,28 @@ Comprehensive repository for Microsoft enterprise infrastructure including Windo
 
 ```
 microsoft/
-├── wsus/             # Windows Server Update Services (air-gapped patching)
-├── gpos/             # Group Policy Objects (security, configuration)
-├── firewall/         # Windows Firewall policies and automation
-├── audits/           # Security audits, compliance scanning
-├── ca-server/        # Certificate Authority management
-├── active-directory/ # AD administration scripts (future)
-├── powershell/       # PowerShell modules and automation
-└── docs/             # Documentation, runbooks, guides
+├── wsus/                   # Windows Server Update Services (air-gapped patching)
+├── gpos/                   # Group Policy Objects and security baselines
+│   ├── security-baselines/ # CIS Level 1 GPO templates
+│   └── scripts/            # Import/export automation
+├── firewall/               # Windows Defender Firewall management
+│   ├── rules/              # Firewall rule templates (JSON)
+│   ├── profiles/           # Profile configurations
+│   └── scripts/            # Deployment automation
+├── modules/                # Enterprise PowerShell modules
+│   ├── EnterpriseLogging/  # Centralized logging (SIEM integration)
+│   └── EnterpriseReporting/# Professional HTML/Excel reports
+├── audits/                 # Security audits, compliance scanning
+├── ca-server/              # Certificate Authority management
+└── docs/                   # Documentation, runbooks, guides
 ```
 
 ---
 
 ## Key Components
 
-### 1. WSUS (Windows Server Update Services)
-**Location:** `/wsus/`
+### 1. WSUS (Windows Server Update Services) ✅
+**Location:** `/wsus/` | **Status:** Production-Ready
 
 Complete air-gapped patch management solution for Windows infrastructure:
 - **Export/Import** - Offline update transfer (v9.x Server 2022+, v8.x legacy)
@@ -44,28 +50,73 @@ Complete air-gapped patch management solution for Windows infrastructure:
 - Health Check v3.9.2, Comprehensive Audit v2.0
 - Maintenance v4.0.12, Initialize v2.9.0
 
-### 2. Group Policy Objects (GPOs)
-**Location:** `/gpos/`
+### 2. Group Policy Objects (GPOs) ✅
+**Location:** `/gpos/` | **Status:** Production-Ready
 
-Enterprise Group Policy configurations:
-- **Security Baselines** - CIS, DISA STIG policies
-- **User Policies** - Desktop configuration, restrictions
-- **Computer Policies** - System hardening, firewall rules
-- **Audit Policies** - Logging, compliance tracking
-- **Deployment** - GPO backup/restore, migration scripts
+CIS-compliant GPO templates and automation:
 
-### 3. Windows Firewall
-**Location:** `/firewall/`
+**Security Baselines** (`/gpos/security-baselines/`):
+- CIS Level 1 - Member Server template
+  - Password policies (14 char min, 365 day max age)
+  - User rights assignments (least privilege)
+  - Security options (UAC, SMB signing, NTLM)
+  - Advanced audit policies (CIS 17.x controls)
+  - GptTmpl.inf, registry.pol, audit.csv
 
-Windows Defender Firewall management:
-- **Zone Configurations** - Domain, private, public profiles
-- **Rule Management** - Inbound/outbound rules, automation
-- **IPsec Policies** - Connection security rules
-- **Logging & Monitoring** - Firewall log analysis
-- **PowerShell Automation** - Bulk rule deployment
+**Automation Scripts** (`/gpos/scripts/`):
+- `Import-SecurityBaselineGPO.ps1` - Import with customization
+- `Export-AllGPOs.ps1` - Backup all domain GPOs
+- Features: WSUS server config, admin subnet updates, OU linking
 
-### 4. Security Audits
-**Location:** `/audits/`
+### 3. Windows Defender Firewall ✅
+**Location:** `/firewall/` | **Status:** Production-Ready
+
+Complete CIS-compliant firewall management:
+
+**Rule Templates** (`/firewall/rules/`):
+- `CIS_Domain_Profile_Rules.json` - Core management (RDP, WinRM, ICMP)
+- `DomainController_Rules.json` - 15 AD DS service rules
+- `WebServer_Rules.json` - IIS/HTTPS configuration
+
+**Profile Settings** (`/firewall/profiles/`):
+- `CIS_Firewall_Profile_Settings.json` - Domain/Private/Public profiles
+- CIS 9.1.x, 9.2.x, 9.3.x compliant settings
+- Logging configuration (16MB+, allowed & blocked)
+
+**Automation Scripts** (`/firewall/scripts/`):
+- `Set-CISFirewallBaseline.ps1` - Automated deployment
+- `Get-FirewallAuditBaseline.ps1` - CIS compliance audit
+- `Export-FirewallRules.ps1` / `Import-FirewallRules.ps1` - Backup/restore
+
+### 4. Enterprise PowerShell Modules ✅ (2 of 6)
+**Location:** `/modules/` | **Status:** Active Development
+
+Production-ready reusable PowerShell modules:
+
+**EnterpriseLogging** (v1.0.0) - Centralized logging with SIEM integration
+- Structured JSON file logging with correlation IDs
+- Windows Event Log integration
+- SIEM forwarding (Splunk, Elasticsearch, Azure Sentinel)
+- Automatic log rotation and retention
+- Session management for grouped operations
+
+**EnterpriseReporting** (v1.0.0) - Professional multi-format reports
+- HTML reports with responsive design and sortable tables
+- CSV/JSON export for automation
+- Excel export with formatting (requires ImportExcel)
+- 4 professional templates (Default, Executive, Technical, Minimal)
+- Chart visualizations (bar, pie, line)
+
+**Planned Modules:**
+- EnterpriseAD - Active Directory management
+- EnterpriseGPO - Group Policy automation
+- EnterpriseCertificate - PKI management
+- EnterpriseNotifications - Teams/Slack/Email
+
+[📖 Full Modules Documentation](./modules/README.md)
+
+### 5. Security Audits
+**Location:** `/audits/` | **Status:** In Development
 
 Security compliance and auditing:
 - **CIS Benchmarks** - Windows Server compliance scanning
@@ -74,8 +125,8 @@ Security compliance and auditing:
 - **Log Analysis** - Security event monitoring
 - **Compliance Reports** - Automated reporting, dashboards
 
-### 5. Certificate Authority (CA)
-**Location:** `/ca-server/`
+### 6. Certificate Authority (CA)
+**Location:** `/ca-server/` | **Status:** In Development
 
 Enterprise PKI and Certificate Authority management:
 - **CA Setup** - Standalone/Enterprise CA deployment
@@ -94,8 +145,65 @@ Enterprise PKI and Certificate Authority management:
 - **Active Directory** - Domain Services, Group Policy
 - **Certificate Services** - Enterprise PKI
 - **PowerShell** - 5.1, 7.x automation
-- **Windows Defender** - Firewall, antivirus
-- **Security Baselines** - CIS, DISA STIG
+- **Windows Defender** - Firewall with Advanced Security
+- **Security Baselines** - CIS Benchmark, Microsoft SCT
+
+---
+
+## Quick Start
+
+### WSUS Offline Patching
+
+```powershell
+# Export updates from internet-connected WSUS
+.\wsus\scripts\Export-WSUSUpdates-v9.ps1 -ExportPath "\\share\updates" -MonthsBack 3
+
+# Import to air-gapped WSUS
+.\wsus\scripts\Import-WSUSUpdates-v9.ps1 -ImportPath "E:\updates" -ApproveUpdates
+```
+
+### GPO Deployment
+
+```powershell
+# Import CIS Level 1 baseline
+.\gpos\scripts\Import-SecurityBaselineGPO.ps1 `
+    -TemplatePath ".\gpos\security-baselines\CIS-Level1-MemberServer" `
+    -GPOName "CIS-Baseline-Servers" `
+    -LinkToOU "OU=Servers,DC=contoso,DC=com" `
+    -CreateIfNeeded
+```
+
+### Firewall Deployment
+
+```powershell
+# Deploy CIS-compliant firewall baseline
+.\firewall\scripts\Set-CISFirewallBaseline.ps1 `
+    -ServerRole DomainController `
+    -AdminSubnet "192.168.1.0/24"
+
+# Audit compliance
+.\firewall\scripts\Get-FirewallAuditBaseline.ps1 -Verbose
+```
+
+### PowerShell Modules
+
+```powershell
+# Import modules
+Import-Module ".\modules\EnterpriseLogging\EnterpriseLogging.psd1"
+Import-Module ".\modules\EnterpriseReporting\EnterpriseReporting.psd1"
+
+# Example: AD health report with logging
+Start-LogSession -SessionName "ADHealthReport"
+Write-EnterpriseLog -Message "Generating AD health report"
+
+$report = New-EnterpriseReport -Title "AD Health Report" -Template Executive
+$users = Get-ADUser -Filter {Enabled -eq $true} -Properties LastLogonDate
+$report | Add-ReportTable -Name "Active Users" -Data $users
+$report | Export-ReportToHTML -Path "C:\Reports\ADHealth.html" -Open
+
+Write-EnterpriseLog -Message "Report completed"
+Stop-LogSession
+```
 
 ---
 
@@ -104,28 +212,21 @@ Enterprise PKI and Certificate Authority management:
 - Windows Server 2019+ (2022+ recommended)
 - PowerShell 5.1+ (7.x for cross-platform)
 - Administrator privileges
-- Active Directory domain (for some features)
-
----
-
-## Getting Started
-
-1. **WSUS:** Review `/wsus/docs/WSUS_PACK_AUDIT_REPORT.md`
-2. **GPOs:** Check security baselines in `/gpos/`
-3. **Firewall:** Review rule templates in `/firewall/`
-4. **Audits:** Run baseline compliance scans
-5. **CA Server:** Review PKI design documentation
+- Active Directory domain (for GPO/AD features)
+- RSAT tools (Group Policy Management, AD DS)
 
 ---
 
 ## Best Practices
 
 - **Test in lab first** - Validate all changes before production
-- **Version control GPOs** - Track all policy changes
-- **Backup CA regularly** - Critical PKI infrastructure
+- **Use correlation IDs** - Track multi-step operations with logging
+- **Backup before changes** - Export GPOs/firewall rules before modifications
+- **Version control** - Track all configuration changes
 - **Monitor WSUS health** - Run weekly health checks
 - **Document exceptions** - Track CIS/STIG deviations
-- **PowerShell signing** - Use code signing for scripts
+- **SIEM integration** - Forward logs for centralized monitoring
+- **Regular audits** - Monthly compliance validation
 
 ---
 
@@ -133,20 +234,54 @@ Enterprise PKI and Certificate Authority management:
 
 - **Least Privilege** - Use minimal required permissions
 - **CIS Hardening** - Apply benchmarks incrementally
-- **Audit Logging** - Enable comprehensive logging
+- **Audit Logging** - Enable comprehensive logging (CIS 17.x)
 - **WSUS SSL** - Use HTTPS for WSUS (recommended)
 - **CA Security** - Hardware Security Module (HSM) for root CA
 - **GPO Testing** - Use WMI filters, security filtering
+- **Firewall Logging** - 16MB+ log size, log allowed & blocked
+- **Code Signing** - Sign all PowerShell scripts in production
 
 ---
 
-## Status
+## Repository Status
 
-**Repository Status:**
-- ✅ WSUS: Production-ready (v9.1.2, v8.2.0)
-- 🔄 GPOs: Content development in progress
-- 🔄 Firewall: Content development in progress
-- 🔄 Audits: Content development in progress
-- 🔄 CA Server: Content development in progress
+| Component | Status | Version | Description |
+|-----------|--------|---------|-------------|
+| **WSUS** | ✅ Production | v9.1.2 / v8.2.0 | Complete offline patching solution |
+| **GPOs** | ✅ Production | v1.0 | CIS Level 1 templates + automation |
+| **Firewall** | ✅ Production | v1.0 | CIS-compliant rules + profiles |
+| **PowerShell Modules** | ✅ Partial | v1.0 | 2 of 6 modules complete |
+| **Audits** | 🔄 In Progress | - | Security compliance scanning |
+| **CA Server** | 🔄 In Progress | - | PKI management tools |
 
-**Last Updated:** 2025-12-22
+---
+
+## Contributing
+
+These tools are maintained by the Enterprise IT team. For issues, feature requests, or contributions, contact your IT department.
+
+---
+
+## License
+
+Enterprise use only. Review your organization's policies before deployment.
+
+---
+
+## Recent Updates
+
+**2025-12-27:**
+- ✅ Added EnterpriseLogging PowerShell module (v1.0.0)
+- ✅ Added EnterpriseReporting PowerShell module (v1.0.0)
+- ✅ Added CIS Level 1 GPO templates with import/export scripts
+- ✅ Added CIS-compliant firewall rules and deployment automation
+- ✅ Complete documentation for all new components
+
+**2025-12-22:**
+- ✅ WSUS Export/Import scripts v9.1.0+
+- ✅ Health Check and Audit scripts
+- ✅ Complete WSUS documentation
+
+---
+
+**Last Updated:** 2025-12-27
