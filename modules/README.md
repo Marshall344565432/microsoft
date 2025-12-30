@@ -38,22 +38,49 @@ Professional reporting module with HTML, CSV, JSON, and Excel export capabilitie
 
 [📖 Full Documentation](./EnterpriseReporting/README.md)
 
+### ✅ EnterpriseAD (v1.0.0)
+
+Enterprise Active Directory management for user, computer, and group operations with health monitoring.
+
+**Features:**
+- Account management (stale, locked, password expiring)
+- Privileged access auditing with nested group expansion
+- Group membership analysis with membership paths
+- Computer and user inventory reports
+- AD replication health monitoring
+- Service account detection and filtering
+
+**Functions:** `Get-ADStaleAccounts`, `Get-ADPrivilegedUsers`, `Get-ADPasswordExpiring`, `Get-ADLockedAccounts`, `Get-ADGroupMembershipReport`, `Test-ADReplicationHealth`, `Get-ADComputerInventory`, `Get-ADUserInventory`
+
+[📖 Full Documentation](./EnterpriseAD/README.md)
+
 ## Quick Start
 
 ```powershell
 # Import modules
 Import-Module ".\modules\EnterpriseLogging\EnterpriseLogging.psd1"
 Import-Module ".\modules\EnterpriseReporting\EnterpriseReporting.psd1"
+Import-Module ".\modules\EnterpriseAD\EnterpriseAD.psd1"
 
-# Example: Log and report
-Write-EnterpriseLog -Message "Generating user report" -Level Information
+# Example: AD security audit with logging and reporting
+Start-LogSession -SessionName "ADSecurityAudit"
+Write-EnterpriseLog -Message "Starting AD security audit"
 
-$report = New-EnterpriseReport -Title "AD User Report"
-$users = Get-ADUser -Filter * -Properties Department
-$report | Add-ReportTable -Name "Active Directory Users" -Data $users
-$report | Export-ReportToHTML -Path "C:\Reports\ADUsers.html" -Open
+$report = New-EnterpriseReport -Title "AD Security Audit" -Template Executive
 
-Write-EnterpriseLog -Message "Report generated successfully" -Level Information
+# Get privileged users
+$privileged = Get-ADPrivilegedUsers -ShowMembershipPath
+$report | Add-ReportTable -Name "Privileged Users" -Data $privileged
+
+# Get stale accounts
+$stale = Get-ADStaleAccounts -DaysInactive 90
+$report | Add-ReportTable -Name "Stale Accounts" -Data $stale
+
+# Export report
+$report | Export-ReportToHTML -Path "C:\Reports\AD_SecurityAudit.html" -Open
+
+Write-EnterpriseLog -Message "Security audit completed successfully"
+Stop-LogSession
 ```
 
 ## Installation
@@ -66,10 +93,12 @@ $modulesPath = "$env:ProgramFiles\WindowsPowerShell\Modules"
 
 Copy-Item -Path ".\modules\EnterpriseLogging" -Destination "$modulesPath\EnterpriseLogging" -Recurse
 Copy-Item -Path ".\modules\EnterpriseReporting" -Destination "$modulesPath\EnterpriseReporting" -Recurse
+Copy-Item -Path ".\modules\EnterpriseAD" -Destination "$modulesPath\EnterpriseAD" -Recurse
 
 # Import modules
 Import-Module EnterpriseLogging
 Import-Module EnterpriseReporting
+Import-Module EnterpriseAD
 ```
 
 ### Direct Import
@@ -78,6 +107,7 @@ Import-Module EnterpriseReporting
 # Import from repository location
 Import-Module "C:\Path\To\Repo\modules\EnterpriseLogging\EnterpriseLogging.psd1"
 Import-Module "C:\Path\To\Repo\modules\EnterpriseReporting\EnterpriseReporting.psd1"
+Import-Module "C:\Path\To\Repo\modules\EnterpriseAD\EnterpriseAD.psd1"
 ```
 
 ## Module Integration Examples
@@ -207,7 +237,6 @@ All modules in this collection follow these standards:
 
 Future modules planned for this collection:
 
-- **EnterpriseAD** - Active Directory management (user/computer/group operations)
 - **EnterpriseGPO** - Group Policy management (backup, comparison, reporting)
 - **EnterpriseCertificate** - PKI management (template management, expiration tracking)
 - **EnterpriseNotifications** - Multi-channel notifications (Teams, Slack, Email)
@@ -227,5 +256,9 @@ These modules are maintained by the Enterprise IT team. For issues or feature re
 - **1.0.0** (2025-12-27) - Initial release
 
 ### EnterpriseReporting
+
+- **1.0.0** (2025-12-27) - Initial release
+
+### EnterpriseAD
 
 - **1.0.0** (2025-12-27) - Initial release

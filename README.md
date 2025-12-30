@@ -88,7 +88,7 @@ Complete CIS-compliant firewall management:
 - `Get-FirewallAuditBaseline.ps1` - CIS compliance audit
 - `Export-FirewallRules.ps1` / `Import-FirewallRules.ps1` - Backup/restore
 
-### 4. Enterprise PowerShell Modules ✅ (2 of 6)
+### 4. Enterprise PowerShell Modules ✅ (3 of 6)
 **Location:** `/modules/` | **Status:** Active Development
 
 Production-ready reusable PowerShell modules:
@@ -107,8 +107,15 @@ Production-ready reusable PowerShell modules:
 - 4 professional templates (Default, Executive, Technical, Minimal)
 - Chart visualizations (bar, pie, line)
 
+**EnterpriseAD** (v1.0.0) - Active Directory management and health monitoring
+- Account management (stale accounts, locked accounts, password expiring)
+- Privileged access auditing with nested group expansion
+- Group membership analysis with membership paths
+- Computer and user inventory reports
+- AD replication health monitoring
+- Service account detection and filtering
+
 **Planned Modules:**
-- EnterpriseAD - Active Directory management
 - EnterpriseGPO - Group Policy automation
 - EnterpriseCertificate - PKI management
 - EnterpriseNotifications - Teams/Slack/Email
@@ -191,17 +198,26 @@ Enterprise PKI and Certificate Authority management:
 # Import modules
 Import-Module ".\modules\EnterpriseLogging\EnterpriseLogging.psd1"
 Import-Module ".\modules\EnterpriseReporting\EnterpriseReporting.psd1"
+Import-Module ".\modules\EnterpriseAD\EnterpriseAD.psd1"
 
-# Example: AD health report with logging
-Start-LogSession -SessionName "ADHealthReport"
-Write-EnterpriseLog -Message "Generating AD health report"
+# Example: AD security audit with logging and reporting
+Start-LogSession -SessionName "ADSecurityAudit"
+Write-EnterpriseLog -Message "Starting AD security audit"
 
-$report = New-EnterpriseReport -Title "AD Health Report" -Template Executive
-$users = Get-ADUser -Filter {Enabled -eq $true} -Properties LastLogonDate
-$report | Add-ReportTable -Name "Active Users" -Data $users
-$report | Export-ReportToHTML -Path "C:\Reports\ADHealth.html" -Open
+$report = New-EnterpriseReport -Title "AD Security Audit" -Template Executive
 
-Write-EnterpriseLog -Message "Report completed"
+# Get privileged users
+$privileged = Get-ADPrivilegedUsers -ShowMembershipPath
+$report | Add-ReportTable -Name "Privileged Users" -Data $privileged
+
+# Get stale accounts
+$stale = Get-ADStaleAccounts -DaysInactive 90
+$report | Add-ReportTable -Name "Stale Accounts" -Data $stale
+
+# Export report
+$report | Export-ReportToHTML -Path "C:\Reports\AD_SecurityAudit.html" -Open
+
+Write-EnterpriseLog -Message "Security audit completed successfully"
 Stop-LogSession
 ```
 
@@ -250,7 +266,7 @@ Stop-LogSession
 | **WSUS** | ✅ Production | v9.1.2 / v8.2.0 | Complete offline patching solution |
 | **GPOs** | ✅ Production | v1.0 | CIS Level 1 templates + automation |
 | **Firewall** | ✅ Production | v1.0 | CIS-compliant rules + profiles |
-| **PowerShell Modules** | ✅ Partial | v1.0 | 2 of 6 modules complete |
+| **PowerShell Modules** | ✅ Partial | v1.0 | 3 of 6 modules complete |
 | **Audits** | 🔄 In Progress | - | Security compliance scanning |
 | **CA Server** | 🔄 In Progress | - | PKI management tools |
 
@@ -271,6 +287,7 @@ Enterprise use only. Review your organization's policies before deployment.
 ## Recent Updates
 
 **2025-12-27:**
+- ✅ Added EnterpriseAD PowerShell module (v1.0.0)
 - ✅ Added EnterpriseLogging PowerShell module (v1.0.0)
 - ✅ Added EnterpriseReporting PowerShell module (v1.0.0)
 - ✅ Added CIS Level 1 GPO templates with import/export scripts
