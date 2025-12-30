@@ -54,6 +54,22 @@ Enterprise Active Directory management for user, computer, and group operations 
 
 [📖 Full Documentation](./EnterpriseAD/README.md)
 
+### ✅ EnterpriseGPO (v1.0.0)
+
+Enterprise Group Policy management for backup, comparison, reporting, and health monitoring.
+
+**Features:**
+- GPO backup and restore with compression and retention policies
+- GPO comparison with HTML diff reports
+- Enhanced reporting with links, permissions, and WMI filters
+- Complete GPO linkage analysis across the domain
+- Health monitoring (replication, sysvol, empty GPOs, unlinked GPOs)
+- Metadata preservation for links, permissions, and WMI filters
+
+**Functions:** `Backup-EnterpriseGPO`, `Restore-EnterpriseGPO`, `Compare-EnterpriseGPO`, `Get-GPOReport`, `Get-GPOLinkage`, `Test-GPOHealth`
+
+[📖 Full Documentation](./EnterpriseGPO/README.md)
+
 ## Quick Start
 
 ```powershell
@@ -237,7 +253,6 @@ All modules in this collection follow these standards:
 
 Future modules planned for this collection:
 
-- **EnterpriseGPO** - Group Policy management (backup, comparison, reporting)
 - **EnterpriseCertificate** - PKI management (template management, expiration tracking)
 - **EnterpriseNotifications** - Multi-channel notifications (Teams, Slack, Email)
 
@@ -260,5 +275,9 @@ These modules are maintained by the Enterprise IT team. For issues or feature re
 - **1.0.0** (2025-12-27) - Initial release
 
 ### EnterpriseAD
+
+- **1.0.0** (2025-12-27) - Initial release
+
+### EnterpriseGPO
 
 - **1.0.0** (2025-12-27) - Initial release

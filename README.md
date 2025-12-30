@@ -88,7 +88,7 @@ Complete CIS-compliant firewall management:
 - `Get-FirewallAuditBaseline.ps1` - CIS compliance audit
 - `Export-FirewallRules.ps1` / `Import-FirewallRules.ps1` - Backup/restore
 
-### 4. Enterprise PowerShell Modules ✅ (3 of 6)
+### 4. Enterprise PowerShell Modules ✅ (4 of 6)
 **Location:** `/modules/` | **Status:** Active Development
 
 Production-ready reusable PowerShell modules:
@@ -115,8 +115,15 @@ Production-ready reusable PowerShell modules:
 - AD replication health monitoring
 - Service account detection and filtering
 
+**EnterpriseGPO** (v1.0.0) - Group Policy management and automation
+- GPO backup and restore with compression and retention policies
+- GPO comparison with HTML diff reports
+- Enhanced reporting with links, permissions, and WMI filters
+- Complete GPO linkage analysis across the domain
+- Health monitoring (replication, sysvol, empty GPOs, unlinked GPOs)
+- Metadata preservation for disaster recovery
+
 **Planned Modules:**
-- EnterpriseGPO - Group Policy automation
 - EnterpriseCertificate - PKI management
 - EnterpriseNotifications - Teams/Slack/Email
 
@@ -266,7 +273,7 @@ Stop-LogSession
 | **WSUS** | ✅ Production | v9.1.2 / v8.2.0 | Complete offline patching solution |
 | **GPOs** | ✅ Production | v1.0 | CIS Level 1 templates + automation |
 | **Firewall** | ✅ Production | v1.0 | CIS-compliant rules + profiles |
-| **PowerShell Modules** | ✅ Partial | v1.0 | 3 of 6 modules complete |
+| **PowerShell Modules** | ✅ Partial | v1.0 | 4 of 6 modules complete |
 | **Audits** | 🔄 In Progress | - | Security compliance scanning |
 | **CA Server** | 🔄 In Progress | - | PKI management tools |
 
@@ -287,6 +294,7 @@ Enterprise use only. Review your organization's policies before deployment.
 ## Recent Updates
 
 **2025-12-27:**
+- ✅ Added EnterpriseGPO PowerShell module (v1.0.0)
 - ✅ Added EnterpriseAD PowerShell module (v1.0.0)
 - ✅ Added EnterpriseLogging PowerShell module (v1.0.0)
 - ✅ Added EnterpriseReporting PowerShell module (v1.0.0)
